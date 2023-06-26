@@ -1,0 +1,67 @@
+body {
+    background-color: black;
+}
+
+a {
+    text-decoration: none;
+    cursor: default;
+    transition: color 1s;
+}
+
+.title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 200px;
+    margin-left: 15px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+.ttl {
+    color: white;
+    cursor: default;
+    transition: text-shadow 2s, color 1s;
+    width: fit-content;
+}
+.ttl:hover {
+    text-shadow: -2px 0 0 rgb(175, 176, 255), 0 2px 0 rgb(255, 149, 149), 2px 0 0 rgb(243, 151, 255), 0 -2px 0 rgb(152, 255, 166), 0 0 10px rgb(165, 255, 255);
+    color: black;
+}
+.ttl:active {
+    text-shadow: 2px 0 0 rgb(175, 176, 255), 0 -2px 0 rgb(255, 149, 149), -2px 0 0 rgb(243, 151, 255), 0 2px 0 rgb(152, 255, 166), 0 0 10px rgb(165, 255, 255);
+}
+
+.subtitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 75px;
+    width: fit-content;
+    margin-left: 35px;
+    margin-top: 0;
+    line-height: 1px;
+}
+
+.yt {
+    color: red;
+}
+.yt:hover {
+    color: white;
+}
+.yt2 {
+    color: white;
+}
+.yt2:hover {
+    color: red;
+}
+
+.ttv {
+    color: blueviolet;
+}
+.ttv:hover {
+    color: white;
+}
+
+.ttv2 {
+    color: white;
+}
+.ttv2:hover {
+    color: blueviolet;
+}
