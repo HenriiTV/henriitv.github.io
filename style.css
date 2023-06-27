@@ -46,10 +46,10 @@ a {
     color: white;
 }
 .yt2 {
-    color: white;
+    color: red;
 }
 .yt2:hover {
-    color: red;
+    color: white;
 }
 
 .ttv {
@@ -60,8 +60,22 @@ a {
 }
 
 .ttv2 {
-    color: white;
+    color: blueviolet;
 }
 .ttv2:hover {
-    color: blueviolet;
+    color: white;
+}
+
+.mp {
+    color: rgb(13, 151, 0);
+}
+.mp:hover {
+    color: white;
+}
+
+.mp2 {
+    color: rgb(13, 151, 0);
+}
+.mp2:hover {
+    color: white;
 }
