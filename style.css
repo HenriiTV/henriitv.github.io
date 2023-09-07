@@ -39,33 +39,6 @@ a {
     line-height: 1px;
 }
 
-.yt {
-    color: red;
-}
-.yt:hover {
-    color: white;
-}
-.yt2 {
-    color: red;
-}
-.yt2:hover {
-    color: white;
-}
-
-.ttv {
-    color: blueviolet;
-}
-.ttv:hover {
-    color: white;
-}
-
-.ttv2 {
-    color: blueviolet;
-}
-.ttv2:hover {
-    color: white;
-}
-
 .mp {
     color: rgb(13, 151, 0);
 }
