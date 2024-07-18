@@ -30,47 +30,44 @@
     }
 
     .glass-panel {
+      position: relative;
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
       border-radius: 30px;
       padding: 60px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* 3D Schatten */
       border: 1px solid rgba(255, 255, 255, 0.2);
       transform-style: preserve-3d;
-      transition: transform 0.3s ease;
+      transition: all 0.3s ease;
+      overflow: hidden;
     }
 
     .glass-panel:hover {
-     transform: scale(1.2);
-     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05) translateZ(50px);
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #letterContainer {
+      position: relative;
+      transform-style: preserve-3d;
+      transform: translateZ(40px);
+      transition: all 0.3s ease;
     }
 
     .letter {
-     display: inline-block;
-     font-size: 5rem;
-     font-weight: 300;
-     color: #ffffff;
-     transition: all 0.3s ease;
-     cursor: default;
-     text-shadow: 2px 2px 4px rgba(50, 50, 50, 0.8);
-     transition: all 0.3s ease;
-     transform-style: preserve-3d;
-     transform: translateZ(80px);
-     text-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* Leichter Schatten */
-    }
-    
-    .letter:hover {
-     transform: translateZ(80px) scale(1.2);
-     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      display: inline-block;
+      font-size: 5rem;
+      font-weight: 700;
+      color: #ffffff;
+      transition: all 0.3s ease;
+      cursor: default;
+      text-shadow: 3px 3px 6px rgba(50, 50, 50, 0.8);
+      transform-style: preserve-3d;
     }
 
-    @keyframes pulse {
-      from {
-        transform: translateZ(80px) rotateY(0deg) rotateX(0deg) scale(1);
-      }
-      to {
-        transform: translateZ(80px) rotateY(0deg) rotateX(0deg) scale(1.1);
-      }
+    .letter:hover {
+      transform: scale(1.2);
+      text-shadow: 5px 5px 15px rgba(50, 50, 50, 0.8);
     }
 
     #youtubeButton {
@@ -95,83 +92,106 @@
 
     #youtubeButton:hover {
       background: rgba(255, 255, 255, 0.2);
-      transform: scale(1.2);
+      transform: scale(1.1);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .glow-cursor {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0.1) 40%,
+        rgba(255, 255, 255, 0) 70%
+      );
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      mix-blend-mode: screen;
+    }
+
+    .glass-panel:hover .glow-cursor {
+      opacity: 1;
     }
   </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="glass-panel" id="glassPanel">
-            <div id="letterContainer"></div>
-        </div>
+  <div class="container">
+    <div class="glass-panel" id="glassPanel">
+      <div id="letterContainer"></div>
+      <div class="glow-cursor" id="glowCursor"></div>
     </div>
-    <button id="youtubeButton">youtube</button>
+  </div>
+  <button id="youtubeButton">youtube</button>
 
-    <script>
-        const word = "henrii";
-        const container = document.getElementById('letterContainer');
-        const glassPanel = document.getElementById('glassPanel');
-        const youtubeButton = document.getElementById('youtubeButton');
+  <script>
+    const word = "henrii";
+    const container = document.getElementById('letterContainer');
+    const glassPanel = document.getElementById('glassPanel');
+    const youtubeButton = document.getElementById('youtubeButton');
+    const glowCursor = document.getElementById('glowCursor');
 
-        function createLetters() {
-            word.split('').forEach((letter) => {
-                const span = document.createElement('span');
-                span.textContent = letter;
-                span.className = 'letter';
-                container.appendChild(span);
-            });
-        }
+    function createLetters() {
+      word.split('').forEach((letter) => {
+        const span = document.createElement('span');
+        span.textContent = letter;
+        span.className = 'letter';
+        container.appendChild(span);
+      });
+    }
 
-        createLetters();
+    createLetters();
 
-        youtubeButton.addEventListener('click', () => {
-            window.open('http://www.youtube.com/@henriitv', 'YouTubePopup', 'width=800,height=600');
-        });
+    youtubeButton.addEventListener('click', () => {
+      window.open('http://www.youtube.com/@henriitv', 'YouTubePopup', 'width=800,height=600');
+    });
 
-        // 3D effect for the entire page
-        document.addEventListener('mousemove', (e) => {
-            const xAxis = -(window.innerWidth / 2 - e.pageX) / 15;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 15;
-            
-            const transformValue = `
+    // 3D effect for the entire page
+    document.addEventListener('mousemove', (e) => {
+      const xAxis = -(window.innerWidth / 2 - e.pageX) / 25;
+      const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+
+      const panelTransform = `
                 rotateY(${xAxis}deg) 
                 rotateX(${yAxis}deg) 
                 translateZ(50px)
             `;
-            const boxShadowValue = `
-                ${-xAxis / 2}px ${-yAxis / 2}px 30px rgba(0, 0, 0, 0.2)
+      const boxShadowValue = `
+                ${-xAxis / 2}px ${-yAxis / 2}px 30px rgba(0, 0, 0, 0.4) /* 3D Schatten */
             `;
 
-            glassPanel.style.transform = transformValue;
-            glassPanel.style.boxShadow = boxShadowValue;
+      glassPanel.style.transform = panelTransform;
+      glassPanel.style.boxShadow = boxShadowValue;
 
-            // Update the text transform to follow the box
-            const textTransform = `
-                translateZ(30px) /* 3 cm hervorgehoben */
+      // Update the text transform to follow the box with added elevation
+      const textTransform = `
                 rotateY(${xAxis}deg) 
-                rotateX(${yAxis}deg)
+                rotateX(${yAxis}deg) 
+                translateZ(70px) /* 20px + 50px to keep it elevated */
             `;
-            container.style.transform = `
-                translateZ(120px) 
-                rotateY(${xAxis}deg) 
-                rotateX(${yAxis}deg)
-            `;
-            document.querySelectorAll('.letter').forEach(letter => {
-                letter.style.transform = textTransform;
-            });
-        });
+      container.style.transform = textTransform;
+    });
 
-        // Reset transforms on mouse leave
-        document.addEventListener('mouseleave', () => {
-            glassPanel.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(50px)';
-            glassPanel.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
-            container.style.transform = 'translateZ(120px) rotateY(0deg) rotateX(0deg)';
-            document.querySelectorAll('.letter').forEach(letter => {
-                letter.style.transform = 'translateZ(30px) rotateY(0deg) rotateX(0deg)';
-            });
-        });
-    </script>
-<body>
-  <div class="container">
-    <div class="glass-panel" id="glassPanel">
+    // Enhanced glow cursor effect
+    glassPanel.addEventListener('mousemove', (e) => {
+      const rect = glassPanel.getBoundingClientRect();
+      const x = e.clientX - rect.left - 100; // 100 is half the width of the glow
+      const y = e.clientY - rect.top - 100; // 100 is half the height of the glow
+      glowCursor.style.left = `${x}px`;
+      glowCursor.style.top = `${y}px`;
+    });
+
+    // Reset transforms on mouse leave
+    glassPanel.addEventListener('mouseleave', () => {
+      glassPanel.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(50px)';
+      glassPanel.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.4)';
+      container.style.transform = 'translateZ(40px) rotateY(0deg) rotateX(0deg)';
+    });
+  </script>
+</body>
+
+</html>
