@@ -70,10 +70,8 @@
       text-shadow: 5px 5px 15px rgba(50, 50, 50, 0.8);
     }
 
-    #youtubeButton {
+    .button {
       position: absolute;
-      top: 20px;
-      left: 20px;
       padding: 12px 24px;
       background: rgba(255, 255, 255, 0.1);
       color: #ffffff;
@@ -90,10 +88,20 @@
       transform-style: preserve-3d;
     }
 
-    #youtubeButton:hover {
+    .button:hover {
       background: rgba(255, 255, 255, 0.2);
       transform: scale(1.1);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    #youtubeButton {
+      top: 20px;
+      left: 20px;
+    }
+
+    #legacyButton {
+      top: 20px;
+      right: 20px;
     }
 
     .glow-cursor {
@@ -126,13 +134,15 @@
       <div class="glow-cursor" id="glowCursor"></div>
     </div>
   </div>
-  <button id="youtubeButton">youtube</button>
+  <button id="youtubeButton" class="button">youtube</button>
+  <button id="legacyButton" class="button">legacy</button>
 
   <script>
     const word = "henrii";
     const container = document.getElementById('letterContainer');
     const glassPanel = document.getElementById('glassPanel');
     const youtubeButton = document.getElementById('youtubeButton');
+    const legacyButton = document.getElementById('legacyButton');
     const glowCursor = document.getElementById('glowCursor');
 
     function createLetters() {
@@ -147,7 +157,11 @@
     createLetters();
 
     youtubeButton.addEventListener('click', () => {
-      window.open('http://www.youtube.com/@henriitv', 'YouTubePopup', 'width=800,height=600');
+      window.open('http://www.youtube.com/@henriitv', '_blank');
+    });
+
+    legacyButton.addEventListener('click', () => {
+      window.open('./legacy.html', '_blank');
     });
 
     // 3D effect for the entire page

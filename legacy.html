@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>henriitv - A very interesting (old) page.</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1c1c1e 0%, #2c2c2e 100%);
+      color: #ffffff;
+      overflow: hidden;
+      perspective: 1000px;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      padding: 60px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transform-style: preserve-3d;
+      transition: transform 0.3s ease;
+    }
+
+    .glass-panel:hover {
+     transform: scale(1.2);
+     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .letter {
+     display: inline-block;
+     font-size: 5rem;
+     font-weight: 300;
+     color: #ffffff;
+     transition: all 0.3s ease;
+     cursor: default;
+     text-shadow: 2px 2px 4px rgba(50, 50, 50, 0.8);
+     transition: all 0.3s ease;
+     transform-style: preserve-3d;
+     transform: translateZ(80px);
+     text-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* Leichter Schatten */
+    }
+    
+    .letter:hover {
+     transform: translateZ(80px) scale(1.2);
+     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes pulse {
+      from {
+        transform: translateZ(80px) rotateY(0deg) rotateX(0deg) scale(1);
+      }
+      to {
+        transform: translateZ(80px) rotateY(0deg) rotateX(0deg) scale(1.1);
+      }
+    }
+
+    #youtubeButton {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 400;
+      text-transform: lowercase;
+      letter-spacing: 2px;
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transform-style: preserve-3d;
+    }
+
+    #youtubeButton:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.2);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-panel" id="glassPanel">
+            <div id="letterContainer"></div>
+        </div>
+    </div>
+    <button id="youtubeButton">youtube</button>
+
+    <script>
+        const word = "henrii";
+        const container = document.getElementById('letterContainer');
+        const glassPanel = document.getElementById('glassPanel');
+        const youtubeButton = document.getElementById('youtubeButton');
+
+        function createLetters() {
+            word.split('').forEach((letter) => {
+                const span = document.createElement('span');
+                span.textContent = letter;
+                span.className = 'letter';
+                container.appendChild(span);
+            });
+        }
+
+        createLetters();
+
+        youtubeButton.addEventListener('click', () => {
+            window.open('http://www.youtube.com/@henriitv', 'YouTubePopup', 'width=800,height=600');
+        });
+
+        // 3D effect for the entire page
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = -(window.innerWidth / 2 - e.pageX) / 15;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 15;
+            
+            const transformValue = `
+                rotateY(${xAxis}deg) 
+                rotateX(${yAxis}deg) 
+                translateZ(50px)
+            `;
+            const boxShadowValue = `
+                ${-xAxis / 2}px ${-yAxis / 2}px 30px rgba(0, 0, 0, 0.2)
+            `;
+
+            glassPanel.style.transform = transformValue;
+            glassPanel.style.boxShadow = boxShadowValue;
+
+            // Update the text transform to follow the box
+            const textTransform = `
+                translateZ(30px) /* 3 cm hervorgehoben */
+                rotateY(${xAxis}deg) 
+                rotateX(${yAxis}deg)
+            `;
+            container.style.transform = `
+                translateZ(120px) 
+                rotateY(${xAxis}deg) 
+                rotateX(${yAxis}deg)
+            `;
+            document.querySelectorAll('.letter').forEach(letter => {
+                letter.style.transform = textTransform;
+            });
+        });
+
+        // Reset transforms on mouse leave
+        document.addEventListener('mouseleave', () => {
+            glassPanel.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(50px)';
+            glassPanel.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+            container.style.transform = 'translateZ(120px) rotateY(0deg) rotateX(0deg)';
+            document.querySelectorAll('.letter').forEach(letter => {
+                letter.style.transform = 'translateZ(30px) rotateY(0deg) rotateX(0deg)';
+            });
+        });
+    </script>
+<body>
+  <div class="container">
+    <div class="glass-panel" id="glassPanel">
